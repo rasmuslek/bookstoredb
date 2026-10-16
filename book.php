@@ -4,7 +4,15 @@ require "connection.php";
 
 $id = $_GET['id'] ?? 0;
 
-$stmt = $pdo->prepare('SELECT id, title, cover_path, summary, price FROM books WHERE id = ?');
+if (isset($_POST['soft_delete'])) {
+    $stmt = $pdo->prepare('UPDATE books SET is_deleted = 1 WHERE id = ?');
+    $stmt->execute([$id]);
+
+    header('Location: index.php');
+    exit;
+}
+
+$stmt = $pdo->prepare('SELECT id, title, cover_path, summary, price, is_deleted FROM books WHERE id = ?');
 $stmt->execute([$id]);
 $book = $stmt->fetch();
 $stmt = $pdo->prepare(
@@ -37,5 +45,13 @@ $authors = $stmt->fetchAll();
         <p><strong>Summary:</strong> <?= ($book['summary']) ?></p>
         <p><strong>Price:</strong> <?= round($book['price'], 2) ?>€</p>
         <img src="<?= $book['cover_path'] ?>" alt="<?= ($book['title']) ?>">
+        <?php if (!$book['is_deleted']) { ?>
+            <form method="post">    
+                <button type="submit" name="soft_delete" value="1">Remove from list</button>
+            </form>
+        <?php } ?>
+
+        <button><a href="edit_book.php?id=<?= $book['id'] ?>">Edit book</a></button>
+
 </body>
 </html>

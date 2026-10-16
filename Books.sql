@@ -3760,6 +3760,7 @@ CREATE TABLE `books` (
   `stock_saldo` varchar(45) NOT NULL DEFAULT '0',
   `pages` int(11) NOT NULL,
   `type` enum('new','used','ebook') NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
