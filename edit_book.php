@@ -50,7 +50,7 @@ $book = $stmt->fetch();
         <label for="title"><strong>Title:</strong></label><br>
         <input type="text" name="title" id="title"><br>
         <p><?= ($book['title']) ?></p>
-
+    
         <label for="release_date"><strong>Release Date:</strong></label><br>
         <input type="number" name="release_date" id="release_date" min="1000" max="3000" step="1"><br>
         <p><?= ($book['release_date']) ?></p>
@@ -70,6 +70,8 @@ $book = $stmt->fetch();
         <label for="pages"><strong>Pages:</strong></label><br>
         <input type="number" name="pages" id="pages">
         <p><?= ($book['pages']) ?></p>
+
+        <button><a href="edit_authors.php?id=<?= $book['id'] ?>">Edit authors</a></button><br>
 
         <button type="submit">Save Changes</button>
     </form>
