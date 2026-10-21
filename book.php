@@ -12,7 +12,7 @@ if (isset($_POST['soft_delete'])) {
     exit;
 }
 
-$stmt = $pdo->prepare('SELECT id, title, cover_path, summary, price, is_deleted FROM books WHERE id = ?');
+$stmt = $pdo->prepare('SELECT id, title, cover_path, summary, price, language, is_deleted, release_date, pages FROM books WHERE id = ?');
 $stmt->execute([$id]);
 $book = $stmt->fetch();
 $stmt = $pdo->prepare(
@@ -36,22 +36,29 @@ $authors = $stmt->fetchAll();
 <body>
         <button><a href="index.php">Back to list</a></button>
         <h1><?= ($book['title']) ?></h1>
-        <h2>Book ID: <?= $book['id'] ?></h2>
-        <p><strong>Authors:</strong>
-            <?php foreach ($authors as $author) { ?>
-                <?=($author['first_name'] . ' ' . $author['last_name']) ?>
-            <?php } ?>
-        </p>
-        <p><strong>Summary:</strong> <?= ($book['summary']) ?></p>
+        <h2>
+            <?php foreach ($authors as $index => $author) { 
+                if ($index > 0) {
+                    echo ', ';
+                }
+                echo $author['first_name'] . ' ' . $author['last_name'];
+            } ?>
+        </h2>
+        <h3>Released: <?= $book['release_date'] ?></h3>
         <p><strong>Price:</strong> <?= round($book['price'], 2) ?>€</p>
-        <img src="<?= $book['cover_path'] ?>" alt="<?= ($book['title']) ?>">
+        <p><strong>Summary:</strong> <?= ($book['summary']) ?></p>
+        <p><strong>Language:</strong> <?= ($book['language']) ?></p>
+        <p><strong>Pages:</strong> <?= ($book['pages']) ?></p>
+
+
+
+        <img src="<?= $book['cover_path'] ?>" alt="<?= ($book['title']) ?>"><br>
+        <button><a href="edit_book.php?id=<?= $book['id'] ?>">Edit book</a></button>
         <?php if (!$book['is_deleted']) { ?>
             <form method="post">    
                 <button type="submit" name="soft_delete" value="1">Remove from list</button>
             </form>
         <?php } ?>
-
-        <button><a href="edit_book.php?id=<?= $book['id'] ?>">Edit book</a></button>
 
 </body>
 </html>
