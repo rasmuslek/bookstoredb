@@ -13,6 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare('INSERT INTO book_authors (book_id, author_id) VALUES (?, ?)');
         $stmt->execute([$bookId, $_POST['author_id']]);
     }
+
+    if (isset($_POST['new_author'])) {    
+    $stmt = $pdo->prepare('INSERT INTO authors (first_name, last_name) VALUES (?, ?)');
+    $stmt->execute([$_POST['first_name'], $_POST['last_name']]);
+}
 }
 
 $stmt = $pdo->prepare(
@@ -32,7 +37,13 @@ $stmt = $pdo->prepare(
 );
 $stmt->execute([$bookId]);
 $availableAuthors = $stmt->fetchAll();
+
+
+
+
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -64,6 +75,12 @@ $availableAuthors = $stmt->fetchAll();
             </select>
             <button type="submit" name="add">Add</button>
         </form>
+
+        <form method="post" >
+            <input name="first_name" placeholder="First name" required>
+            <input name="last_name" placeholder="Last name" required>
+            <button type="submit" name="new_author">Create new author</button><br><br>
+
     <?php } ?>
 </body>
 </html>

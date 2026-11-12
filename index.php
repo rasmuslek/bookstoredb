@@ -27,10 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 
-    <form method="post">
-        <input name="first_name" placeholder="First name" required>
-        <input name="last_name" placeholder="Last name" required>
-        <button>Add author</button><br><br>
+
 
 
     <form method="get">
