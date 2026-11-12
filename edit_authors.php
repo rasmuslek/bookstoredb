@@ -1,5 +1,5 @@
 <?php
-require "connection.php";
+require "database.php";
 
 $bookId = (int) ($_GET['id'] ?? 0);
 
@@ -41,7 +41,7 @@ $availableAuthors = $stmt->fetchAll();
     <title>Edit authors</title>
 </head>
 <body>
-    <a href="edit_book.php?id=<?= $bookId ?>">Back to book edit view</a>
+    <button><a href="edit.php?id=<?= $bookId ?>">Back to book edit view</a></button>
 
     <h2>Current authors</h2>
     <?php foreach ($authors as $author) { ?>

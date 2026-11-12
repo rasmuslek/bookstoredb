@@ -1,6 +1,6 @@
 <?php
 
-require "connection.php";
+require "database.php";
 
 $search = $_GET['search'] ?? '';
 
@@ -9,6 +9,13 @@ $stmt = $pdo->prepare(
      WHERE is_deleted = 0 AND title LIKE ?'
 );
 $stmt->execute(["%$search%"]);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {    
+    $stmt = $pdo->prepare('INSERT INTO authors (first_name, last_name) VALUES (?, ?)');
+    $stmt->execute([$_POST['first_name'], $_POST['last_name']]);
+    header('Location: index.php');
+    exit;
+}
 
 ?>
 <!DOCTYPE html>
@@ -19,6 +26,12 @@ $stmt->execute(["%$search%"]);
     <title>Document</title>
 </head>
 <body>
+
+    <form method="post">
+        <input name="first_name" placeholder="First name" required>
+        <input name="last_name" placeholder="Last name" required>
+        <button>Add author</button><br><br>
+
 
     <form method="get">
         <input name="search" placeholder="Search titles"
