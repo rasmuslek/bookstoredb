@@ -34,8 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input name="search" placeholder="Search titles"
             value="<?= $search ?>">
         <button>Search</button>
-        <button><a href="index.php">Clear</a></button>
+        <button><a href="index.php">Clear</a></button><br>
     </form>
+
+    <button><a href="new_author.php">Create new author</a></button><br>
 
     <ol>
         <?php while ($book = $stmt->fetch()) { ?>
